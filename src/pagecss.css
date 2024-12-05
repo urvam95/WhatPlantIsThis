@@ -1,26 +1,162 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: url('https://images.unsplash.com/photo-1580656592414-7bdf2f6595ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1920') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+}
+
+/* Container for the whole app */
 .app-container {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.image-upload {
-  margin: 20px 0;
+/* Title */
+.title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #165129; /* Leafy green */
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 3px rgba(14, 4, 4, 0.2);
 }
 
-.image-preview {
-  max-width: 100%;
-  max-height: 200px;
-  margin-top: 10px;
+/* Input and button container */
+.container {
+    text-align: center;
+    margin: 20px 0;
 }
 
-.plant-identification .results {
-  margin-top: 20px;
+.container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: #2f7a48;
+    color: #faf5f5;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.result-item {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
+.container button:hover {
+    background: #45a05c;
+}
+
+.container p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* Results container */
+.results {
+    margin-top: 30px;
+}
+
+.results h1 {
+    font-size: 2rem;
+    color: #458159;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Suggestion box styling */
+.suggestion {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(158, 229, 183, 0.109);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion h3 {
+    color: #316e46;
+    margin-bottom: 10px;
+}
+
+.details strong {
+    color: #2f7a48;
+}
+
+.details p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #738e48;
+}
+
+.details a {
+    color: #91cda5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.details a:hover {
+    text-decoration: underline;
+}
+
+/* Similar images */
+.similar-images {
+    display: block;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.similar-images .similar-img {
+    max-width: 1000px;
+    border: 2px solid #9d9595;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.similar-images .similar-img:hover {
+    transform: scale(2.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .container button {
+        font-size: 0.9rem;
+    }
+
+    .results h1 {
+        font-size: 1.8rem;
+    }
+
+    .similar-images .similar-img {
+        max-width: 100px;
+    }
+}
+
+/* Style for the <strong> tag */
+h2 {
+  font-size: 1.5rem; /* Adjust font size for better readability */
+  font-weight: bold; /* Ensure the text appears bold */
+  color: #a1c589; /* Use a plant-themed green color */
+  text-align: center; /* Center-align the text */
+  display: block; /* Make it behave like a block-level element for easy layout control */
+  margin: 20px auto; /* Add some margin for spacing */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.2rem; /* Slightly smaller font size for smaller screens */
+    margin: 15px auto;
+  }
 }

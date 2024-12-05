@@ -13,7 +13,8 @@
     "axios": "^1.7.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-file-base64": "^1.0.3"
+    "react-file-base64": "^1.0.3",
+    "react-responsive": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

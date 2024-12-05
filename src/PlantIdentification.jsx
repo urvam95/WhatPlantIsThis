@@ -1,133 +1,27 @@
 import { useState,useEffect } from 'react'
-import ImageUpload from './ImageUpload';
 import FileBase64 from 'react-file-base64'
 
-const URL_PLANT="https://plant.id/api/v3/identification?details=common_names,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering&language=en"
+
+const URL_PLANT = "https://plant.id/api/v3/identification?details=common_names,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering&language=en"
+
 function PlantIdentification() {
-    // const [base64Image, setBase64Image] = useState(null);
-    // const [result, setResult] = useState(null);
-    // const [loading, setLoading] = useState(false);
-
-    // function handleImageUpload(file) {
-    //     const reader = new FileReader();
-    //     reader.onloadend = () => {
-    //         setBase64Image(reader.result.split(',')[1])
-            
-    //     }
-    //     reader.readAsDataURL(file);
-
-        
-    // }
-
-    // async function identifyPlant() {
-    //     var myHeaders = new Headers();
-    //     myHeaders.append('Api-Key', "1HiIIjlq4z9ebXNj6UmvE88Lab5isZtxLLKs2tHAD1pALbPVIp");
-    //     myHeaders.append('Content-Type', 'application/json');
-
-    //     var raw = JSON.stringify({
-    //         "images": [base64Image],
-    //         "latitude": 49.207,
-    //         "longitude": 16.608,
-    //         "similar_images": true
-            
-    //     })
-
-    //     var requestOptions = {
-    //         method: 'POST',
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: 'follow',
-    //     };
-    //     await fetch(URL_PLANT, requestOptions)
-    //         .then(response => response.json())
-    //         .then(result => { console.log(result) })
-        //   .catch(error => console.log('error', error));
-        // await fetch(URL_PLANT, requestOptions).then(res=>res.json(data)).then(resData=> {console.log("success", resData)})
-    
-
-        //     if (!base64Image) {
-        //         alert('Please Upload an Image');
-        //         return;
-        //     }
-        //     setLoading(true);
-        //     setResult(null);
-
-        //     try {
-        //         const res = await fetch('https://plant.id/api/v3/identification?details=common_names,url,description,taxonomy,rank,gbif_id,inaturalist_id,image,synonyms,edible_parts,watering&language=en',
-        //             requestOptions
-        //         )
-        //         if (!res.ok) {
-        //             throw new Error(`Failed to Identify Plant, Try again! ${res.status}`)
-        //         }
-        //         const data = await res.json();
-        //         setResult(data);
-        //         console.log(data);
-
-            
-        //     } catch (error) {
-        //   console.error('Error identifying the plant:', error);
-        //     }
-        //     finally {
-        //   setLoading(false);
-        // }
-        
-
-        
-        // }
-
-
-    //     useEffect(() => {
-    //         if (base64Image) {
-    //             identifyPlant();
-    //         }
-    //     }, [base64Image]);
-    
-    //     return (
-    //         <div className="plant-identification">
-    //             <ImageUpload onUpload={handleImageUpload} />
-    //             {loading ? (
-    //                 <p>Identifying...</p>
-    //             ) :
-    //                 (result && (
-    //                     <div className="results" >
-    //                         <h2>Results: </h2>
-    //                         {result.map((item, index) => (
-    //                             <div key={index} className='result-item'>
-    //                                 <h3>{item.plant_name}</h3>
-    //                                 <p>probability: {(item.probability * 100).toFixed(2)}%</p>
-
-    //                             </div>
-                            
-    //                         ))}
-    //                     </div>
-    //                 )
-                    
-    //                 )}
-
-    //         </div>
-    //     )
-    // }
-
-
-    ///////////////////////////////(((((((())))))))
-
-
-
     const [plantFile, setPlantFile] = useState(null);
     const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
+    
     
     function handleInput(files) {
         setPlantFile(files);
     }
 
-    
     async function setPicIdData() {
         var myHeaders = new Headers();
-        myHeaders.append('Api-Key', "1HiIIjlq4z9ebXNj6UmvE88Lab5isZtxLLKs2tHAD1pALbPVIp");
+        myHeaders.append('Api-Key', "bLcRPC3GP4wjkLr6nDgQltJe0b15Qw8XVS3qjWMxJDMVWGLvRu");
         myHeaders.append('Content-Type', 'application/json');
+        const baseCode = [plantFile.base64.slice(23)];
 
         var raw = JSON.stringify({
-            "images": [plantFile.base64.slice(23)],
+            "images": baseCode,
             "latitude": 49.207,
             "longitude": 16.608,
             "similar_images": true
@@ -140,48 +34,109 @@ function PlantIdentification() {
             body:raw,
             redirect: 'follow',
         };
-        const data = {
-            modifiers: [`all`,
-                 `species`
-            ],
-            plant_details: [
-                "common_names",
-                "url",
-                "name_authority",
-                "wiki_description",
-                "taxonomy",
-                "synonyms"
-            ]
-        };
-
-        const res = await fetch(URL_PLANT, requestOptions);
-        const response = res.json(data);
-        setResult(response);
-        console.log("sucess", response);
-
     
-    
-        
+        try {
+
+
+            const res = await fetch(URL_PLANT, requestOptions);
+            if (!res.ok) {
+                throw new Error(`Try again ${res.status}`)
+            }
+            else {
+                setLoading(true);
+                const response = await res.json();
+                setResult(response);
+
+                console.log("sucess");
+            }
+
+        }
+        catch (err) {
+            console.log("Failed to identify plant", err);
+        } finally {
+            setLoading(false);
+        }
     }
+    
+    console.log(result)
+   
 
-
+    
     return (
-        <div>
-            PlantId
+        <div className='container'>
             <FileBase64 multiple={false} onDone={handleInput} />
-            {/* {plantFile && plantFile.base64.slice(23)} */}
-            <button onClick={setPicIdData}> Identify
-                
+            <button onClick={setPicIdData}> Identify  
             </button>
-           
             
-              
-            
-            
-            
+            <div className='container'>
+
+                {loading ? <p>identifying</p> 
+                    :
+                    
+                    <h2>
+                        {result && (result.result.is_plant.binary ? "Plant Identified" : "Please upload an image of a plant")}
+                        </h2>
+               }      
             </div>
+            <div className='results'>
+                
+                {result && result.result.classification.suggestions.map((sugg, index) => (
+                    <div key={sugg.id} className='suggestion' >
+                        <h3>{index + 1}. {sugg.name}</h3>
+                        {sugg.details && (
+                            <div className='details'>
+                                <p>
+                                    <strong> Common Names: </strong> {" "}
+                                    {sugg.details.common_names ? sugg.details.common_names.join(", ")
+                                        : "No common names found"}
+                                </p>
+                                <p>
+                                    <strong> Description </strong>
+                                    
+                                </p>
+                                {sugg.details.url && (
+                                    <p>
+                                        
+                                        <span>{sugg.details.description.value}</span>
+                                        <a href={sugg.details.url}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                        >
+                                            <strong> More Info </strong>
+                                        </a>
+                                    </p>
+                                )}
+                                <h4>Similar Images</h4>
+                                <ul className='similar_images'>
+                                    {sugg.similar_images.map((img, imgIndex) => (
+                                        <li key={img.id} style={{ listStyleType: 'none' }}>
+                                            <img
+                                                src={img.url_small || img.url}
+                                                alt={`Similar Image ${imgIndex + 1}`}
+                                                style={
+                                                    {
+                                                        maxWidth: "150px",
+                                                        margin: "10px",
+                                                        borderRadius: "5px",
+                                                    }
+                                                }
+                                            />
+
+                                        </li>
+                                    ))}
+                                </ul>
+
+                            </div>
+                        )}
+                    </div>
+                )
+                    
+                )}
+            </div>
+           </div>
             
     )
 }
 
 export default PlantIdentification
+
